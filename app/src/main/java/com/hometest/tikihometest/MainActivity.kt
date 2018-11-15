@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.hometest.tikihometest.models.KeyWord
 import com.hometest.tikihometest.retrofit.Client
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -13,7 +14,7 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
-    private val keyWords : ArrayList<String> = ArrayList()
+    private val keyWords : ArrayList<KeyWord> = ArrayList()
     private lateinit var listKeyWordAdapter: ListKeyWordAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<ArrayList<String>>, response: Response<ArrayList<String>>) {
                 if (response.isSuccessful) {
-                    keyWords.addAll(response.body()?:ArrayList())
+                    for (k in response.body()?:ArrayList()) {
+                        keyWords.add(KeyWord(k))
+                    }
                     updateUI()
                 }
             }

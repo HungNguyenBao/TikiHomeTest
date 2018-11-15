@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.hometest.tikihometest.models.KeyWord
 import com.hometest.tikihometest.retrofit.Client
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         Client.apiService.getKeyWords().enqueue(object : Callback<ArrayList<String>> {
             override fun onFailure(call: Call<ArrayList<String>>, t: Throwable) {
                 Log.e(TAG, t.message)
+                handleError()
             }
 
             override fun onResponse(call: Call<ArrayList<String>>, response: Response<ArrayList<String>>) {
@@ -36,6 +38,8 @@ class MainActivity : AppCompatActivity() {
                         keyWords.add(KeyWord(k))
                     }
                     updateUI()
+                } else {
+                    handleError()
                 }
             }
 
@@ -53,5 +57,10 @@ class MainActivity : AppCompatActivity() {
             layoutManager = llm
             adapter = listKeyWordAdapter
         }
+    }
+
+    private fun handleError() {
+        Toast.makeText(this@MainActivity, "Something was wrong", Toast.LENGTH_SHORT).show()
+        updateUI()
     }
 }

@@ -13,21 +13,21 @@ import kotlinx.android.synthetic.main.key_word_item.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ListKeyWorkAdapter(private val keyWorks: ArrayList<String>, private val context: Context) :
+class ListKeyWordAdapter(private val keyWords: ArrayList<String>, private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.key_word_item, p0, false)
-        return ListKeyWorkViewHolder(view)
+        return ListKeyWordViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return keyWorks.size
+        return keyWords.size
     }
 
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
-        val holder = p0 as ListKeyWorkViewHolder
-        var item = keyWorks[p1]
+        val holder = p0 as ListKeyWordViewHolder
+        var item = keyWords[p1]
         val arrOfWord = item.split(" ")
         val layoutParams = holder.itemContainer.layoutParams as RecyclerView.LayoutParams
         if (p1 == itemCount - 1) {
@@ -37,20 +37,20 @@ class ListKeyWorkAdapter(private val keyWorks: ArrayList<String>, private val co
         }
         if (arrOfWord.size > 1) {
             item = addEndLine(arrOfWord)
-            holder.keyWork.setLines(2)
+            holder.keyWord.setLines(2)
         } else {
-            holder.keyWork.setLines(1)
+            holder.keyWord.setLines(1)
         }
         holder.itemContainer.setBackgroundResource(R.drawable.rounded_corners)
         val drawable = holder.itemContainer.background
         val color = getRandColor()
         drawable.setColorFilter(color, PorterDuff.Mode.SRC)
-        holder.keyWork.text = item
+        holder.keyWord.text = item
     }
 
-    inner class ListKeyWorkViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ListKeyWordViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val itemContainer: FrameLayout = mView.itemContainer
-        val keyWork: TextView = mView.keyWord
+        val keyWord: TextView = mView.keyWord
     }
 
     private fun pxFromDp(context: Context, dp: Float): Float {

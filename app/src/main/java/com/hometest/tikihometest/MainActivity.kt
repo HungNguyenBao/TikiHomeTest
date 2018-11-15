@@ -2,39 +2,45 @@ package com.hometest.tikihometest
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import com.hometest.tikihometest.retrofit.Client
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
-
-    val myStringArray = arrayOf("xiaomi",
-        "bitis hunter",
-        "bts",
-        "balo",
-        "bitis hunter x",
-        "tai nghe",
-        "harry potter",
-        "anker",
-        "iphone",
-        "balo nữ",
-        "nguyễn nhật ánh",
-        "đắc nhân tâm",
-        "ipad",
-        "senka",
-        "tai nghe bluetooth",
-        "son",
-        "maybelline",
-        "laneige",
-        "kem chống nắng",
-        "anh chính là thanh xuân của em")
-    val keyWords : ArrayList<String> = ArrayList()
+    private val TAG = "MainActivity"
+    private val keyWords : ArrayList<String> = ArrayList()
     private lateinit var listKeyWordAdapter: ListKeyWordAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        keyWords.addAll(myStringArray)
         listKeyWordAdapter = ListKeyWordAdapter(keyWords, this)
+        fetchDataFromApi()
+    }
+
+    private fun fetchDataFromApi() {
+        Client.apiService.getKeyWords().enqueue(object : Callback<ArrayList<String>> {
+            override fun onFailure(call: Call<ArrayList<String>>, t: Throwable) {
+                Log.e(TAG, t.message)
+            }
+
+            override fun onResponse(call: Call<ArrayList<String>>, response: Response<ArrayList<String>>) {
+                if (response.isSuccessful) {
+                    keyWords.addAll(response.body()?:ArrayList())
+                    updateUI()
+                }
+            }
+
+        })
+    }
+
+    private fun updateUI() {
+        progress.visibility = View.GONE
         with(listKeyWord) {
             val llm = android.support.v7.widget.LinearLayoutManager(
                 this@MainActivity,
@@ -44,6 +50,5 @@ class MainActivity : AppCompatActivity() {
             layoutManager = llm
             adapter = listKeyWordAdapter
         }
-
     }
 }

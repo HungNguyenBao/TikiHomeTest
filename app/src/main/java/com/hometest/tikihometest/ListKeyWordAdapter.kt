@@ -29,12 +29,6 @@ class ListKeyWordAdapter(private val keyWords: ArrayList<KeyWord>, private val c
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
         val holder = p0 as ListKeyWordViewHolder
         val item = keyWords[p1]
-        val layoutParams = holder.itemContainer.layoutParams as RecyclerView.LayoutParams
-        if (p1 == itemCount - 1) {
-            layoutParams.marginEnd = pxFromDp(context, 8f).toInt()
-        } else {
-            layoutParams.marginEnd = 0
-        }
         holder.itemContainer.setBackgroundResource(R.drawable.rounded_corners)
         val drawable = holder.itemContainer.background
         drawable.setColorFilter(item.color, PorterDuff.Mode.SRC)
@@ -44,9 +38,5 @@ class ListKeyWordAdapter(private val keyWords: ArrayList<KeyWord>, private val c
     inner class ListKeyWordViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val itemContainer: FrameLayout = mView.itemContainer
         val keyWord: TextView = mView.keyWord
-    }
-
-    private fun pxFromDp(context: Context, dp: Float): Float {
-        return dp * context.resources.displayMetrics.density
     }
 }

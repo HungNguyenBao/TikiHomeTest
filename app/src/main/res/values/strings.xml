@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TikiHomeTest</string>
+  <string name="key_word">Từ Khoá Hot</string>
 </resources>

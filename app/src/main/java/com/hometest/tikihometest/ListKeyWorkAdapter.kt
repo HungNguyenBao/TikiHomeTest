@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.key_word_item.view.*
+import java.util.*
 
-class ListKeyWorkAdapter(private val keyWorks: ArrayList<String>, private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ListKeyWorkAdapter(private val keyWorks: ArrayList<String>, private val context: Context) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.key_word_item, p0, false)
         return ListKeyWorkViewHolder(view)
@@ -33,7 +35,8 @@ class ListKeyWorkAdapter(private val keyWorks: ArrayList<String>, private val co
         }
         holder.itemContainer.setBackgroundResource(R.drawable.rounded_corners)
         val drawable = holder.itemContainer.background
-        drawable.setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.DARKEN)
+        val color = getRandColor()
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC)
         holder.keyWork.text = item
     }
 
@@ -44,5 +47,10 @@ class ListKeyWorkAdapter(private val keyWorks: ArrayList<String>, private val co
 
     private fun pxFromDp(context: Context, dp: Float): Float {
         return dp * context.resources.displayMetrics.density
+    }
+
+    private fun getRandColor(): Int {
+        val rnd = Random()
+        return Color.argb(255, rnd.nextInt(150), rnd.nextInt(150), rnd.nextInt(150))
     }
 }
